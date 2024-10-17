@@ -1,7 +1,7 @@
 import numpy as np
 
 def sigmoid(x):
-    return 1 / (1 + np.exp(x))
+    return 1 / (1 + np.exp(-x))
 
 class Neuron:
 
@@ -16,30 +16,20 @@ class Neuron:
 
 class NeuralNetwork:
 
-    def __init__(self, inputLayer, hiddenLayer, outputN):
-        self.inputLayer = inputLayer
-        self.hiddenLayer = hiddenLayer
-        self.outputN = outputN
+    def __init__(self):
+        self.h1 = Neuron()
+        self.h2 = Neuron()
 
-    def process(self, inputs):
-        in1, in2 = inputs
-        inN1, inN2 = self.inputLayer
-        out1 = inN1.feedForward([in1, in2])
-        out2 = inN2.feedForward([in1, in2])
+        self.out = Neuron()
 
-        hN1, hN2 = self.hiddenLayer
-        inter1 = hN1.feedForward([out1, out2])
-        inter2 = hN2.feedForward([out1, out2])
 
-        outputN = self.outputN
+    def feedForward(self, inputs):  
 
-        return outputN.feedForward([inter1, inter2])
+        out1 = self.h1.feedForward(inputs)
+        out2 = self.h2.feedForward(inputs)
 
-inN1 = Neuron()
-inN2 = Neuron()
-hN1 = Neuron()
-hN2 = Neuron()
-outputN = Neuron()
+        return self.out.feedForward([out1,out2])
 
-NN = NeuralNetwork([inN1, inN2], [hN1, hN2], outputN)
-print(NN.process([2,3]))
+
+NN = NeuralNetwork()
+print(NN.feedForward([2,3]))
